@@ -102,4 +102,11 @@ Aqui, o Laravel automaticamente injeta uma instância de UserService no método 
 
 ### Benefícios da Injeção de Dependência no Laravel
 
-1. *Desacoplamento*: As classes não precisam saber como criar suas dependências, o que promove um código …
+1. *Desacoplamento*: As classes não precisam saber como criar suas dependências, o que promove um código mais modular.
+2. *Testabilidade*: É fácil substituir dependências reais por mocks ou stubs em testes unitários.
+3. *Manutenção*: Alterações nas dependências são mais fáceis de implementar, já que você só precisa modificar o container de serviços.
+4. *Reutilização*: Dependências podem ser compartilhadas entre várias classes.
+
+### Resumo
+
+A injeção de dependência no Laravel 11 é uma técnica poderosa que permite gerenciar as dependências de suas classes de forma eficiente e organizada. O *Service Container* do Laravel facilita a resolução automática de dependências, tornando o desenvolvimento mais ágil e o código mais limpo. Ao utilizar DI, você segue boas práticas de programação, como o princípio da inversão de controle (IoC) e o desacoplamento de componentes.
