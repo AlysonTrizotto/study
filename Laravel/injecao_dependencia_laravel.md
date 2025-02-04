@@ -30,19 +30,31 @@ O coração da injeção de dependência no Laravel é o *Service Container*. El
 
 Suponha que você tenha uma classe UserService que depende de uma classe UserRepository. Em vez de instanciar UserRepository dentro de UserService, você pode injetá-la via construtor:
 
-
+UserRepository
 ```
-php
-class UserRepository
-{
+<?php
+
+namespace App\Http\Repositories;
+
+
+class UserRepository{
     public function getUsers()
     {
         return ['Alice', 'Bob', 'Charlie'];
     }
 }
 
-class UserService
-{
+```
+
+Services
+```
+<?php
+
+namespace App\Http\Services;
+
+use App\Http\Repositories\UserRepository;
+
+class UserService{
     protected $userRepository;
 
     // Injeção de dependência via construtor
@@ -69,13 +81,32 @@ O Laravel usa reflexão para inspecionar o construtor da classe e identificar qu
 Em alguns casos, você pode querer registrar manualmente uma dependência no container. Isso é útil quando você precisa especificar como uma dependência deve ser resolvida. Por exemplo:
 
 ```
-php
-use App\Repositories\UserRepository;
-use App\Services\UserService;
+<?php
 
-$this->app->bind(UserService::class, function ($app) {
-    return new UserService($app->make(UserRepository::class));
-});
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        $this->app->bind(App\Http\Repositories\UserRepository::class, App\Http\Services\UserService::class);
+
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}
+
 ```
 
 Agora, sempre que você solicitar UserService, o Laravel usará a função de callback para resolver a dependência.
@@ -85,8 +116,11 @@ Agora, sempre que você solicitar UserService, o Laravel usará a função de ca
 Além da injeção via construtor, o Laravel também permite injetar dependências diretamente em métodos de controllers, jobs, middlewares, etc. Por exemplo:
 
 ```
-php
-use App\Services\UserService;
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Services\UserService;
 
 class UserController extends Controller
 {
@@ -96,6 +130,7 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 }
+
 ```
 
 Aqui, o Laravel automaticamente injeta uma instância de UserService no método index.
@@ -110,3 +145,6 @@ Aqui, o Laravel automaticamente injeta uma instância de UserService no método 
 ### Resumo
 
 A injeção de dependência no Laravel 11 é uma técnica poderosa que permite gerenciar as dependências de suas classes de forma eficiente e organizada. O *Service Container* do Laravel facilita a resolução automática de dependências, tornando o desenvolvimento mais ágil e o código mais limpo. Ao utilizar DI, você segue boas práticas de programação, como o princípio da inversão de controle (IoC) e o desacoplamento de componentes.
+
+
+![alt text](image.png)
