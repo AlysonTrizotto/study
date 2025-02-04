@@ -31,7 +31,7 @@ O coração da injeção de dependência no Laravel é o *Service Container*. El
 Suponha que você tenha uma classe UserService que depende de uma classe UserRepository. Em vez de instanciar UserRepository dentro de UserService, você pode injetá-la via construtor:
 
 
-
+```
 php
 class UserRepository
 {
@@ -56,7 +56,7 @@ class UserService
         return $this->userRepository->getUsers();
     }
 }
-
+```
 
 No exemplo acima, o Laravel automaticamente resolve a dependência UserRepository e a injeta no construtor de UserService quando você solicita uma instância de UserService.
 
@@ -68,6 +68,7 @@ O Laravel usa reflexão para inspecionar o construtor da classe e identificar qu
 
 Em alguns casos, você pode querer registrar manualmente uma dependência no container. Isso é útil quando você precisa especificar como uma dependência deve ser resolvida. Por exemplo:
 
+```
 php
 use App\Repositories\UserRepository;
 use App\Services\UserService;
@@ -75,7 +76,7 @@ use App\Services\UserService;
 $this->app->bind(UserService::class, function ($app) {
     return new UserService($app->make(UserRepository::class));
 });
-
+```
 
 Agora, sempre que você solicitar UserService, o Laravel usará a função de callback para resolver a dependência.
 
@@ -83,6 +84,7 @@ Agora, sempre que você solicitar UserService, o Laravel usará a função de ca
 
 Além da injeção via construtor, o Laravel também permite injetar dependências diretamente em métodos de controllers, jobs, middlewares, etc. Por exemplo:
 
+```
 php
 use App\Services\UserService;
 
@@ -94,7 +96,7 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 }
-
+```
 
 Aqui, o Laravel automaticamente injeta uma instância de UserService no método index.
 
