@@ -30,4 +30,33 @@ php artisan make:policy ProductPolicy --model=Product
 
 Por padrão, o Laravel identifica as policies automáticamente, desde que esteja seguindo os padrões de nomenclatura, porém podemos registrar uma policy manualmente da seguinte forma:
 
+´´´
+App\Provider\AppServiceProviders
 
+
+use App\Models\Product;
+use App\Policies\ProductPolicy;
+use Illuminate\Support\Facades\Gate;
+ 
+public function boot(): void
+{
+    Gate::policy(Product::class, ProductPolicy::class);
+}
+
+´´´
+
+Agora, é criar a regra na nossa Policy:
+
+``` 
+<?php
+namespace App\Policies;
+
+use App\Models\Product;
+use App\Models\User;
+
+class ProductPolicy{
+    public function 
+}
+
+?>
+```
